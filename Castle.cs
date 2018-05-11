@@ -24,7 +24,6 @@ namespace CompleteProject
 		void OnTriggerEnter (Collider other)
 		{
 			//Debug.Log (other.tag);
-			//	Debug.Log(other.tag);
 			if (other.tag == "Bullet")
 				TakeHit (other.gameObject.GetComponent<Bulletcollision>().Damage);
 		}

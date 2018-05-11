@@ -43,7 +43,7 @@ namespace CompleteProject
 				if (NextTarget != null) 
 				{
 					difference = Vector3.Distance (transform.position, NextTarget.transform.position);
-					Debug.Log (difference);
+					//Debug.Log (difference);
 					if (difference >= Stats.Range) 
 					{
 						if (this.tag == "Spawner") 

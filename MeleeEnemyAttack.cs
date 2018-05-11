@@ -39,7 +39,7 @@ namespace CompleteProject
 			} 
 			else if (other.tag == "Castle")
 			{
-				Debug.Log (other.tag);
+				//Debug.Log (other.tag);
 				C = other.GetComponentInParent<Castle> ();
 				BuildingInRange = true;
 				BuildingDead = false;

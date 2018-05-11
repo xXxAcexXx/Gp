@@ -21,12 +21,12 @@ namespace CompleteProject
 		// Update is called once per fram
 		public void TakeHit(int Damage)
 	    {
-			Debug.Log (Health);
+			//Debug.Log (Health);
 			Health -= Damage;
 	    }
 		void OnTriggerEnter (Collider other)
 		{
-			Debug.Log (other.tag);
+			//Debug.Log (other.tag);
 		//	Debug.Log(other.tag);
 			if (other.tag == "Bullet")
 				TakeHit (other.gameObject.GetComponent<Bulletcollision>().Damage);
