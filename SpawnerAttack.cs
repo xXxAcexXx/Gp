@@ -12,7 +12,7 @@ namespace CompleteProject
 		int PlayerMask;
 		EnemyMovement Mov;
 		EnemyStat Stats;
-		bool spawned=false;
+		//bool spawned=false;
 		public GameObject Minionobj;
 
 		void Awake ()
@@ -22,6 +22,7 @@ namespace CompleteProject
 			Stats = GetComponentInParent<EnemyStat>();
 			anim = gameObject.GetComponentInParent<Animator>();
 			Mov = gameObject.GetComponentInParent<EnemyMovement>();
+			Spawn ();
 			//Debug.Log (anim.name);
 		}
 
@@ -29,16 +30,17 @@ namespace CompleteProject
 		{
 			timer += Time.deltaTime;
 
-			if(timer >= Stats.AttackSpeed && Mov.BuildingInRange()  && Stats.CurrentHealth > 0 && !(Mov.BuildingDead()))
+			if(timer >= Stats.AttackSpeed  && Stats.CurrentHealth > 0 && !(Mov.BuildingDead()))//building in range deh asdy 3aleha ya2ema building f 7alet el enemies el ranged ya2ema enemies in range to apply effects 
 			{
 				Spawn ();
-				Attack ();
+				//Attack ();
 			}
 		}
 
 		void Spawn()
 		{
-			if (!spawned) {
+			timer = 0;
+				anim.SetTrigger ("Attack");
 				Vector3 spoint = new Vector3 (1, 0, 0);
 				var minion = (GameObject)Instantiate (Minionobj, transform.position + spoint, transform.rotation);
 				for (int i = 0; i < 3; i++) {
@@ -74,24 +76,21 @@ namespace CompleteProject
 					}
 				
 				}
-				spawned = true;
-			}
 		}
-
-		void Attack ()
-		{
-			// Reset the timer.
-			timer = 0f;
-			anim.SetTrigger ("Attack");
-
-			Vector3 allt = new Vector3 (0, 2, 0);
-			var spell = (GameObject)Instantiate (Stats.ProjectilePrefab,transform.position+allt,transform.rotation);
-			// Add velocity to the bullet
-			spell.GetComponent<Rigidbody>().velocity = spell.transform.forward * 10f;
-
-			// Destroy the bullet after 2 seconds
-			Destroy(spell, 3f);
-		}
+//		void Attack ()
+//		{
+//			// Reset the timer.
+//			timer = 0f;
+//		
+//
+//			Vector3 allt = new Vector3 (0, 2, 0);
+//			var spell = (GameObject)Instantiate (Stats.ProjectilePrefab,transform.position+allt,transform.rotation);
+//			// Add velocity to the bullet
+//			spell.GetComponent<Rigidbody>().velocity = spell.transform.forward * 10f;
+//
+//			// Destroy the bullet after 2 seconds
+//			Destroy(spell, 3f);
+//		}
 
 	}
 }

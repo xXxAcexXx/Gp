@@ -7,7 +7,7 @@ namespace CompleteProject
 	public class Tower : MonoBehaviour {
 
 	    // Use this for initialization
-	    public int HitPoints = 5;
+	    public int Health = 5;
 		EnemyMovement Enemy;
 		void Start ()
 	    {
@@ -15,14 +15,14 @@ namespace CompleteProject
 		}
 		void Update()
 		{
-			if (HitPoints <= 0)
+			if (Health <= 0)
 				Destroy (gameObject);
 		}
 		// Update is called once per fram
 		public void TakeHit(int Damage)
 	    {
-			Debug.Log (HitPoints);
-	        HitPoints -= Damage;
+			Debug.Log (Health);
+			Health -= Damage;
 	    }
 		void OnTriggerEnter (Collider other)
 		{

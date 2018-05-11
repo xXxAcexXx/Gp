@@ -144,14 +144,14 @@ namespace CompleteProject
 		{
 			if (NextTarget.tag == "Castle") 
 			{
-				if (NextTarget.GetComponent<Castle> ().HitPoints <= 0)
+				if (NextTarget.GetComponent<Castle> ().Health <= 0)
 					return true;
 				else
 					return false;
 			} 
 			else if (NextTarget.tag == "Towers") 
 			{
-				if (NextTarget.GetComponent<Tower> ().HitPoints <= 0)
+				if (NextTarget.GetComponent<Tower> ().Health <= 0)
 					return true;
 				else
 					return false;

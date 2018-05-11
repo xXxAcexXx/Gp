@@ -37,7 +37,7 @@ namespace CompleteProject
 			}
 			if (BuildingType) 
 			{
-				if (C.HitPoints > 0)
+				if (C.Health > 0)
 					C.TakeHit (Stats.AttackDamage);
 				else
 				{
@@ -46,7 +46,7 @@ namespace CompleteProject
 			}
 			else 
 			{
-				if (T.HitPoints > 0)
+				if (T.Health > 0)
 					T.TakeHit (Stats.AttackDamage);
 				else 
 				{

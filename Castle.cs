@@ -9,17 +9,17 @@ namespace CompleteProject
 
 	// Use this for initialization
 	// Use this for initialization
-		public int HitPoints = 10;
+		public int Health = 10;
 		void Update()
 		{
-			if (HitPoints <= 0)
+			if (Health <= 0)
 				Destroy (gameObject);
 		}
 		// Update is called once per fram
 		public void TakeHit(int Damage)
 		{
 			//	Debug.Log (HitPoints);
-			HitPoints -= Damage;
+			Health -= Damage;
 		}
 		void OnTriggerEnter (Collider other)
 		{

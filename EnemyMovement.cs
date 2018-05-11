@@ -14,6 +14,7 @@ namespace CompleteProject
 		float difference;
 		Animator anim;     // Whether player is within the trigger collider and can be attacked.
 		EnemyStat Stats;
+		int count = 0;
         void Awake ()
         {
             // Set up the references.
@@ -23,7 +24,7 @@ namespace CompleteProject
 			{
 				agent = GetComponent<NavMeshAgent> ();
 				agent.speed = Stats.EnemySpeed;
-				agent.stoppingDistance = Stats.Range;
+				agent.stoppingDistance = Stats.Range - 1;
 			}
 			anim = GetComponent<Animator> ();
 			MyTtowers = GameObject.FindGameObjectsWithTag("Towers");
@@ -42,15 +43,32 @@ namespace CompleteProject
 				if (NextTarget != null) 
 				{
 					difference = Vector3.Distance (transform.position, NextTarget.transform.position);
-					//Debug.Log (difference);
+					Debug.Log (difference);
 					if (difference >= Stats.Range) 
 					{
-						anim.SetBool ("PlayerInRange", false);
-						if(tag != "SuicidalSoldier")
-							agent.destination = NextTarget.transform.position;
+						if (this.tag == "Spawner") 
+						{
+							if (count >= Stats.AttackSpeed)
+								StopMoving ();
+							else 
+							{
+								anim.SetBool ("PlayerInRange", false);
+								if (tag != "SuicidalSoldier")
+									agent.destination = NextTarget.transform.position;
+								else
+									transform.position = Vector3.MoveTowards (transform.position, NextTarget.transform.position, Time.deltaTime * Stats.EnemySpeed);
+							}
+						}
 						else
-						transform.position= Vector3.MoveTowards (transform.position, NextTarget.transform.position, Time.deltaTime * Stats.EnemySpeed);
-						//transform.LookAt (NextTarget.transform);
+						{
+							anim.SetBool ("PlayerInRange", false);
+							if(tag != "SuicidalSoldier")
+								agent.destination = NextTarget.transform.position;
+							else
+								transform.position= Vector3.MoveTowards (transform.position, NextTarget.transform.position, Time.deltaTime * Stats.EnemySpeed);
+							//transform.LookAt (NextTarget.transform);
+						}
+						count++;
 					} 
 					else 
 					{
@@ -71,6 +89,13 @@ namespace CompleteProject
 			}
 	    }
 
+		void StopMoving()
+		{
+			count = 0;
+			agent.destination = agent.destination;
+			transform.LookAt (NextTarget.transform);
+			anim.SetBool ("PlayerInRange", true);
+		}
 		void MyNextTarget()
 		{
 			if (MyTtowers.Length == 0) {
@@ -80,13 +105,28 @@ namespace CompleteProject
 					return;
 				}
 			}
-			float Dist = 99999999;
-			foreach (var item in MyTtowers)
+			float Dist = 99999;
+			if (this.tag == "Spawner") 
 			{
-				if (Vector3.Distance(transform.position, item.transform.position) < Dist)
+				float Score = 99999999;
+				foreach (var item in MyTtowers)
 				{
-					Dist = Vector3.Distance(transform.position, item.transform.position);
-					NextTarget = item;
+					if (Vector3.Distance (transform.position, item.transform.position) * item.GetComponent<Tower> ().Health < Score)
+					{
+						Score = Vector3.Distance (transform.position, item.transform.position) * item.GetComponent<Tower> ().Health;
+						NextTarget = item;
+					}
+				}
+			}
+			else
+			{
+				foreach (var item in MyTtowers)
+				{
+					if (Vector3.Distance(transform.position, item.transform.position) < Dist)
+					{
+						Dist = Vector3.Distance(transform.position, item.transform.position);
+						NextTarget = item;
+					}
 				}
 			}
 			if(Vector3.Distance(transform.position, Castle.transform.position) < Dist)
@@ -111,21 +151,22 @@ namespace CompleteProject
 		}
 		public bool BuildingDead ()
 		{
-			if (NextTarget.tag == "Castle") 
+			if (NextTarget != null) 
 			{
-				if (NextTarget.GetComponent<Castle> ().HitPoints <= 0)
+				if (NextTarget.tag == "Castle") {
+					if (NextTarget.GetComponent<Castle> ().Health <= 0)
+						return true;
+					else
+						return false;
+				} else if (NextTarget.tag == "Towers") {
+					if (NextTarget.GetComponent<Tower> ().Health <= 0)
+						return true;
+					else
+						return false;
+				} else
 					return true;
-				else
-					return false;
 			} 
-			else if (NextTarget.tag == "Towers") 
-			{
-				if (NextTarget.GetComponent<Tower> ().HitPoints <= 0)
-					return true;
-				else
-					return false;
-			}
-			else 
+			else
 				return true;
 		}
 	}
