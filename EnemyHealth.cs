@@ -20,7 +20,6 @@ namespace CompleteProject
 			//Stats.Awake.Play ();
             enemyAudio = GetComponent <AudioSource> ();
             capsuleCollider = GetComponent <CapsuleCollider> ();
-            Stats.CurrentHealth = startingHealth;
         }
 
         public void TakeDamage (int amount)
