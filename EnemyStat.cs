@@ -11,7 +11,7 @@ namespace CompleteProject
 		[HideInInspector]
 		public int CurrentHealth = 100; 
 		[HideInInspector]
-		public bool Invinsible=false;
+		public bool Invinsible = false;
 		public float AttackSpeed;     // The time in seconds between each attack.
 		public float EnemySpeed;
 		public int AttackDamage;                  // The damage inflicted by each bullet.
@@ -22,7 +22,5 @@ namespace CompleteProject
 		//public AudioSource Awake;
 		public Slider healthslider;
 		public GameObject ProjectilePrefab;
-
-		//public GameObject NextTarget;
 	}
 }

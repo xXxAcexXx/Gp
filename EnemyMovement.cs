@@ -24,7 +24,7 @@ namespace CompleteProject
 			{
 				agent = GetComponent<NavMeshAgent> ();
 				agent.speed = Stats.EnemySpeed;
-				agent.stoppingDistance = Stats.Range - 1;
+				agent.stoppingDistance = Stats.Range;
 			}
 			anim = GetComponent<Animator> ();
 			MyTtowers = GameObject.FindGameObjectsWithTag("Towers");
@@ -43,7 +43,7 @@ namespace CompleteProject
 				if (NextTarget != null) 
 				{
 					difference = Vector3.Distance (transform.position, NextTarget.transform.position);
-					//Debug.Log (difference);
+					Debug.Log (difference);
 					if (difference >= Stats.Range) 
 					{
 						if (this.tag == "Spawner") 
@@ -72,9 +72,7 @@ namespace CompleteProject
 					} 
 					else 
 					{
-						transform.position = transform.position;
-						transform.LookAt (NextTarget.transform);
-						anim.SetBool ("PlayerInRange", true);
+						StopMoving ();
 					}
 				} 
 				else 

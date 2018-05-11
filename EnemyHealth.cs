@@ -25,6 +25,7 @@ namespace CompleteProject
 
         public void TakeDamage (int amount)
         {
+			Debug.Log (Stats.Invinsible);
             if(isDead)
                 return;
 			if (Stats.Invinsible)

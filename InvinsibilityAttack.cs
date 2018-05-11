@@ -12,12 +12,12 @@ namespace CompleteProject
 		float timer;            
 		float difference;
 		EnemyStat Stats;
-		InvinsibilityMovement EnMov;
+		EnhancerMovement EnMov;
 		void Awake ()
 		{
 			Stats = GetComponent<EnemyStat>();
 			anim = gameObject.GetComponent<Animator>();
-			EnMov = GetComponent<InvinsibilityMovement> ();//Debug.Log (anim.name);
+			EnMov = GetComponent<EnhancerMovement> ();//Debug.Log (anim.name);
 		}
 		void Update()
 		{
@@ -29,9 +29,9 @@ namespace CompleteProject
 			//Debug.Log(EnMov.BuildingInRange ());
 			if (EnMov.NextTarget != null) 
 			{
-				if (timer >= Stats.AttackSpeed && EnMov.BuildingInRange () && Stats.CurrentHealth > 0 && EnMov.NextTarget.Applied == false) 
+				if (timer >= Stats.AttackSpeed && EnMov.BuildingInRange () && Stats.CurrentHealth > 0) 
 				{
-					ApplyAura (EnMov.NextTarget.obj);
+					ApplyAura (EnMov.NextTarget);
 				}
 			}
 		}
@@ -46,9 +46,8 @@ namespace CompleteProject
 				//StartCoroutine("WaitFor3Sec");
 				OB.GetComponent<EnemyStat> ().Invinsible = true;
 				// Destroy the bullet after 2 seconds
-				EnMov.NextTarget.Applied = true;
 				Destroy (Aura, 10f);
-				EnMov.enemy = EnMov.TargetEnemy (EnMov.enemy);
+				//EnMov.enemy = EnMov.TargetEnemy (EnMov.enemy);
 			}
 		}
 		//		IEnumerator WaitFor3Sec()

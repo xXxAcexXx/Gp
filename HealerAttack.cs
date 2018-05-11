@@ -7,31 +7,25 @@ namespace CompleteProject
 	public class HealerAttack : MonoBehaviour 
 	{
 
-		//Transform Bulltrans; 
-		Animator anim;                              // Reference to the animator component.
+		Animator anim;
 		float timer;            
 		float difference;
 		EnemyStat Stats;
-		HealerMovement EnMov;
+		EnhancerMovement EnMov;
 		void Awake ()
 		{
 			Stats = GetComponent<EnemyStat>();
 			anim = gameObject.GetComponent<Animator>();
-			EnMov = GetComponent<HealerMovement> ();//Debug.Log (anim.name);
+			EnMov = GetComponent<EnhancerMovement> ();
 		}
 		void Update()
 		{
-			//Debug.Log(EnMov.BuildingInRange());
 			timer += Time.deltaTime;
-//			Debug.Log (EnMov.BuildingInRange());
-//			Debug.Log (EnMov.NextTarget.Applied);
-//			Debug.Log (EnMov.NextTarget.obj);
-			//Debug.Log(EnMov.BuildingInRange ());
 			if (EnMov.NextTarget != null) 
 			{
-				if (timer >= Stats.AttackSpeed && EnMov.BuildingInRange () && Stats.CurrentHealth > 0 && EnMov.NextTarget.Applied == false) 
+				if (timer >= Stats.AttackSpeed && EnMov.BuildingInRange () && Stats.CurrentHealth > 0) 
 				{
-					ApplyAura (EnMov.NextTarget.obj);
+					ApplyAura (EnMov.NextTarget);
 				}
 			}
 		}
@@ -43,17 +37,10 @@ namespace CompleteProject
 				anim.SetTrigger ("Attack");
 				var Aura = (GameObject)Instantiate (Stats.ProjectilePrefab, OB.transform.position, transform.rotation);
 				Aura.GetComponent<AuraFollow> ().SetTarget (OB);
-				//StartCoroutine("WaitFor3Sec");
 				OB.GetComponent<EnemyStat> ().CurrentHealth = 100;
-				// Destroy the bullet after 2 seconds
-				EnMov.NextTarget.Applied = true;
 				Destroy (Aura, 3f);
-				EnMov.enemy = EnMov.TargetEnemy (EnMov.enemy);
+				EnMov.NextTarget = null;
 			}
 		}
-//		IEnumerator WaitFor3Sec()
-//		{
-//			yield return new WaitForSeconds (3);
-//		}
 	}
 }

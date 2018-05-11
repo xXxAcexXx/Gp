@@ -1,10 +1,10 @@
 essam:
-el invincible
+el Shielder						DONE
 el spawner msh byewsal                                DONE
 el tank by-collide ghalat
-el health bar ghalat fel 3 eli fato
-mate3melsh reset lel invincibility boolean
-choosing max score to heal
+el health bar ghalat fel shielder w spawner
+mate3melsh reset lel invincibility boolean		Done
+choosing max score to heal				DONE
 effects (lure, damage over time, invincibility)
 damage over time fire effect
 el spawner by-spawn kaza mara w msh by-attack          DONE
