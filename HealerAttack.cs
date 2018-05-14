@@ -12,11 +12,14 @@ namespace CompleteProject
 		float difference;
 		EnemyStat Stats;
 		EnhancerMovement EnMov;
+		float tempattspeed;
 		void Awake ()
 		{
 			Stats = GetComponent<EnemyStat>();
 			anim = gameObject.GetComponent<Animator>();
 			EnMov = GetComponent<EnhancerMovement> ();
+			tempattspeed=Stats.AttackSpeed;
+			Stats.AttackSpeed = 0;
 		}
 		void Update()
 		{
@@ -31,6 +34,7 @@ namespace CompleteProject
 		}
 		public void ApplyAura (GameObject OB)
 		{
+			Stats.AttackSpeed = tempattspeed;
 			// Reset the timer.
 			timer = 0f;
 			if (OB.GetComponent<EnemyStat> ().CurrentHealth > 0) {

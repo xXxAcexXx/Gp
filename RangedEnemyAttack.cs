@@ -14,7 +14,8 @@ namespace CompleteProject
 		Light gunLight;               
 		public Light faceLight;								// Duh
 		float effectsDisplayTime = 0.2f; 
-		EnemyMovement Mov;
+		RangedEnemyMovement Mov;
+		float tempattspeed;
 		EnemyStat Stats;
 
 		void Awake ()
@@ -24,7 +25,9 @@ namespace CompleteProject
 			gunAudio = GetComponent<AudioSource> ();
 			Stats = GetComponentInParent<EnemyStat>();
 			anim = gameObject.GetComponentInParent<Animator>();
-			Mov = gameObject.GetComponentInParent<EnemyMovement>();
+			Mov = gameObject.GetComponentInParent<RangedEnemyMovement>();
+			tempattspeed=Stats.AttackSpeed;
+			Stats.AttackSpeed = 0;
 		//Debug.Log (anim.name);
 		}
 
@@ -51,6 +54,7 @@ namespace CompleteProject
 		}
 		void Shoot ()
 		{
+			Stats.AttackSpeed = tempattspeed;
 			// Reset the timer.
 			timer = 0f;
 
@@ -68,7 +72,7 @@ namespace CompleteProject
 
 			var bullet = (GameObject)Instantiate (Stats.ProjectilePrefab,transform.position,transform.rotation);
 			// Add velocity to the bullet
-			bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 10f;
+			bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 30f;
 
 			// Destroy the bullet after 2 seconds
 			Destroy(bullet, 5f);

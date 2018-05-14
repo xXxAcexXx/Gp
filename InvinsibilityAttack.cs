@@ -12,12 +12,15 @@ namespace CompleteProject
 		float timer;            
 		float difference;
 		EnemyStat Stats;
+		float tempattspeed;
 		EnhancerMovement EnMov;
 		void Awake ()
 		{
 			Stats = GetComponent<EnemyStat>();
 			anim = gameObject.GetComponent<Animator>();
 			EnMov = GetComponent<EnhancerMovement> ();//Debug.Log (anim.name);
+			tempattspeed=Stats.AttackSpeed;
+			Stats.AttackSpeed = 0;
 		}
 		void Update()
 		{
@@ -37,14 +40,19 @@ namespace CompleteProject
 		}
 		public void ApplyAura (GameObject OB)
 		{
+			Stats.AttackSpeed = tempattspeed;
 			// Reset the timer.
 			timer = 0f;
-			if (OB.GetComponent<EnemyStat> ().CurrentHealth > 0) {
+			if (OB.GetComponent<EnemyStat> ().CurrentHealth > 0) 
+			{
 				anim.SetTrigger ("Attack");
 				var Aura = (GameObject)Instantiate (Stats.ProjectilePrefab, OB.transform.position, transform.rotation);
 				Aura.GetComponent<AuraFollow> ().SetTarget (OB);
 				//StartCoroutine("WaitFor3Sec");
-				OB.GetComponent<EnemyStat> ().Invinsible = true;
+				//OB.GetComponent<EnemyStat>().effects[3] = true;
+				OB.GetComponent<EnemyStat>().effects[0] = true;
+				//Debug.Log (OB.tag);
+				//Debug.Log (OB.GetComponent<EnemyStat> ().effects [3]);
 				// Destroy the bullet after 2 seconds
 				Destroy (Aura, 10f);
 				//EnMov.enemy = EnMov.TargetEnemy (EnMov.enemy);

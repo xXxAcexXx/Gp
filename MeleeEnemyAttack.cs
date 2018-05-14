@@ -14,23 +14,33 @@ namespace CompleteProject
 		bool BuildingDead;
 		Castle C;
 		Tower T;
+		float tempattspeed;
+		MeleeEnemyMovement enmov;
+		DasherEnemyMovement dmov;
 		bool BuildingType=false;  //false for tower,true for castle
-		Vector3 temp;
+		//Vector3 temp;
 		EnemyStat Stats;
 
         void Awake ()
         {
 			Stats = GetComponent<EnemyStat>();
 			anim = GetComponent<Animator> ();
+			if(gameObject.tag=="Dasher")
+				dmov = GetComponent<DasherEnemyMovement> ();
+			else
+				enmov = GetComponent<MeleeEnemyMovement> ();
+			tempattspeed=Stats.AttackSpeed;
+			Stats.AttackSpeed = 0;
         }
 
         void OnTriggerEnter (Collider other)
         {
-            // If the entering collider is the player...
-			//Debug.Log(other.gameObject);
-			//Debug.Log(other.tag);
 			if (other.tag == "Towers")
 			{
+				if (gameObject.tag == "Dasher")
+					dmov.Stop = true;
+				else
+					enmov.Stop = true;
 				T = other.GetComponentInParent<Tower> ();
 				BuildingInRange = true;
 				BuildingDead = false;
@@ -39,25 +49,22 @@ namespace CompleteProject
 			} 
 			else if (other.tag == "Castle")
 			{
-				//Debug.Log (other.tag);
+				if(gameObject.tag=="Dasher")
+					dmov.Stop = true;
+				else
+					enmov.Stop = true;
 				C = other.GetComponentInParent<Castle> ();
 				BuildingInRange = true;
 				BuildingDead = false;
 				BuildingType = true;
-				//anim.SetBool ("ToCastle", false);
 			}
 				
         }
-
-        void Update ()
+       	void Update ()
         {
 			timer += Time.deltaTime;
-			//Debug.Log (anim.tag);
-			//Debug.Log(BuildingDead);
-			//Debug.Log (BuildingInRange);
             if(timer >= Stats.AttackSpeed && BuildingInRange && Stats.CurrentHealth > 0 && !BuildingDead)
 			{
-				//temp = transform.position;
 				Attack ();
 				if (BuildingDead) 
 				{
@@ -69,29 +76,41 @@ namespace CompleteProject
         void Attack ()
         {
 			// Reset the timer.
+			Stats.AttackSpeed = tempattspeed;
 			timer = 0f;
-			anim.SetTrigger ("Attack");
 			if (BuildingType) 
 			{
-				if (C.Health > 0)
+				if (C.Health > 0) 
+				{
+					anim.SetTrigger ("Attack");
 					C.TakeHit (Stats.AttackDamage);
+				}
 				else
 				{
 					BuildingDead = true;
 					anim.SetBool ("PlayerDead", true);
+					if(gameObject.tag=="Dasher")
+						dmov.Stop = false;
+					else
+						enmov.Stop = false;
 				}
 			}
 			else 
 			{
-				if (T.Health > 0)
+				if (T.Health > 0) 
+				{
+					anim.SetTrigger ("Attack");
 					T.TakeHit (Stats.AttackDamage);
+				}
 				else 
 				{
 					BuildingDead = true;
-					//anim.SetBool ("ToCastle", true);
+					if(gameObject.tag=="Dasher")
+						dmov.Stop = false;
+					else
+						enmov.Stop = false;
 				}
 			}
-			//transform.position = temp;
 		}
 	}
 }

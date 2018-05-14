@@ -13,6 +13,8 @@ namespace CompleteProject
 		void Update () {
 			if(target!=null)
 				transform.position = target.transform.position;
+			if (target.GetComponent<EnemyStat> ().CurrentHealth <= 0)
+				Destroy (gameObject);
 		}
 		public void SetTarget(GameObject GO)
 		{

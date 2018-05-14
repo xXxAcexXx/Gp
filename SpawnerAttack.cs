@@ -10,15 +10,18 @@ namespace CompleteProject
 		float timer;                                    // Reference to the line renderer.
 		float difference;
 		int PlayerMask;
-		EnemyMovement Mov;
+		RangedEnemyMovement Mov;
 		EnemyStat Stats;
+		float tempattspeed;
 		public GameObject Minionobj;
 
 		void Awake ()
 		{
 			Stats = GetComponentInParent<EnemyStat>();
 			anim = gameObject.GetComponentInParent<Animator>();
-			Mov = gameObject.GetComponentInParent<EnemyMovement>();
+			Mov = gameObject.GetComponentInParent<RangedEnemyMovement>();
+			tempattspeed=Stats.AttackSpeed;
+			Stats.AttackSpeed = 0;
 			Spawn ();
 			//Debug.Log (anim.name);
 		}
@@ -36,6 +39,8 @@ namespace CompleteProject
 
 		void Spawn()
 		{
+			Stats.AttackSpeed = tempattspeed;
+			
 			timer = 0;
 				anim.SetTrigger ("Attack");
 				Vector3 spoint = new Vector3 (1, 0, 0);

@@ -9,7 +9,7 @@ namespace CompleteProject
 		[HideInInspector]
 		public GameObject NextTarget;
 		public string[] tags;
-		float difference;
+		float difference=999;
 		Animator anim;
 		EnemyStat Stats;
 		GameObject C;
@@ -19,10 +19,12 @@ namespace CompleteProject
 		float timer; 
 		void Awake ()
 		{
+			//Debug.Log (difference);
 			C=GameObject.FindGameObjectWithTag("Castle");
 			anim = GetComponent<Animator> ();
 			Stats = GetComponent<EnemyStat>();
 			MyNextTarget();
+			//Debug.Log (difference);
 		}
 		void Update()
 		{
@@ -89,7 +91,7 @@ namespace CompleteProject
 					else if (this.tag == "Shielder") 
 					{
 						float tempscore = Enemies [i] [p].gameObject.GetComponent<EnemyStat> ().CurrentHealth * Enemies [i] [p].gameObject.GetComponent<EnemyStat> ().Type * Vector3.Distance (transform.position, Enemies [i] [p].gameObject.transform.position * Vector3.Distance (C.transform.position, Enemies [i] [p].gameObject.transform.position) * (1/Enemies [i] [p].gameObject.GetComponent<EnemyStat> ().AttackDamage));
-						if (tempscore < Scor && Enemies [i] [p].gameObject.GetComponent<EnemyStat> ().CurrentHealth < 100) 
+						if (tempscore < Scor && Enemies [i] [p].gameObject.GetComponent<EnemyStat> ().CurrentHealth <= 100) 
 						{
 							Scor = tempscore;
 							trgt = Enemies [i] [p].gameObject;

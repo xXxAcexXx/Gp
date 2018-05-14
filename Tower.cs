@@ -8,7 +8,7 @@ namespace CompleteProject
 
 	    // Use this for initialization
 	    public int Health = 5;
-		EnemyMovement Enemy;
+		//EnemyMovement Enemy;
 		void Start ()
 	    {
 			
